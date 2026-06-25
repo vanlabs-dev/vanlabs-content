@@ -369,19 +369,25 @@ local dev action (the cloud routine cannot see the local `intoops-routines` chec
 
 ## Environment variables
 
-Configured in the **Claude cloud schedule's environment** (the routine reads the repo, not
-`.env`; `.env` is local-only and gitignored).
+All secrets are provisioned in the **Claude routine (cloud schedule) environment**; the
+routine reads the repo, not `.env`. The local `.env` is gitignored and holds only a subset
+for local development and gate/smoke testing — it does not need to be complete, and Telegram
+and TAO.app keys are not required locally.
 
-| Variable | Status | Purpose |
-|---|---|---|
-| `DESEARCH_API_KEY` | present | Desearch `/twitter` (Authorization header, no Bearer) |
-| `SUPABASE_URL` | present | Supabase REST base (dedup) |
-| `SUPABASE_SERVICE_ROLE_KEY` | present | Supabase REST auth (dedup) |
-| `GITHUB_TOKEN` | present | GitHub API for dev-activity validation |
-| `TELEGRAM_BOT_TOKEN` | **needed** | `sendMessage` |
-| `TELEGRAM_CHAT_ID` | **needed** | destination chat/channel |
-| `TAOSTATS_API_KEY` | present (optional) | registration/age validation (via `taostats-api` skill) |
-| `TAO_APP_API_KEY` | absent (optional) | team/roadmap validation; enable to use TAO.app |
+| Variable | Purpose |
+|---|---|
+| `DESEARCH_API_KEY` | Desearch `/twitter` (Authorization header, no Bearer) |
+| `SUPABASE_URL` | Supabase REST base (dedup) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase REST auth (dedup) |
+| `GITHUB_TOKEN` | GitHub API for dev-activity validation |
+| `TELEGRAM_BOT_TOKEN` | `sendMessage` |
+| `TELEGRAM_CHAT_ID` | destination chat/channel |
+| `TAOSTATS_API_KEY` | optional: registration/age validation (via the `taostats-api` skill) |
+| `TAO_APP_API_KEY` | optional: team/roadmap validation via TAO.app |
+
+All of the above are set on the routine. The local `.env` currently includes
+`DESEARCH_API_KEY`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GITHUB_TOKEN`, and
+`TAOSTATS_API_KEY`, which is enough to run the gate tests and live smoke checks locally.
 
 ## Scheduling
 
