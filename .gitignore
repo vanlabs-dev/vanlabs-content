@@ -1,0 +1,13 @@
+# Runtime artifacts produced by the routine
+digest.html
+digest.txt
+payload.json
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local env / secrets
+.env
+*.env
