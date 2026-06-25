@@ -51,8 +51,8 @@ running the gate tests and live smoke checks.
 | Variable | Purpose |
 |---|---|
 | `DESEARCH_API_KEY` | Desearch `/twitter` (Authorization header, no Bearer) |
-| `SUPABASE_URL` | Supabase REST base (dedup) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase REST auth (dedup) |
+| `SB_URL` | Supabase REST base (dedup). Routine convention; falls back to `SUPABASE_URL`. |
+| `SB_KEY` | Supabase service-role key (dedup). Routine convention; falls back to `SUPABASE_SERVICE_ROLE_KEY`. |
 | `GITHUB_TOKEN` | GitHub API for dev-activity validation |
 | `TELEGRAM_BOT_TOKEN` | `sendMessage` |
 | `TELEGRAM_CHAT_ID` | destination chat/channel |

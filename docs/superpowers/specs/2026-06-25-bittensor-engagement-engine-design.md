@@ -355,8 +355,11 @@ create table if not exists vanlabs_seen_targets (
 );
 ```
 
+- **Env names:** the routine environment uses `SB_URL` / `SB_KEY` (IntoOps convention); the
+  routine falls back to `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` for local runs
+  (`SBURL="${SB_URL:-$SUPABASE_URL}"`, `SBKEY="${SB_KEY:-$SUPABASE_SERVICE_ROLE_KEY}"`).
 - **Read (Step 2):**
-  `GET {SUPABASE_URL}/rest/v1/vanlabs_seen_targets?select=tweet_id&run_at=gte.{now-7d}`
+  `GET {SB_URL}/rest/v1/vanlabs_seen_targets?select=tweet_id&run_at=gte.{now-7d}`
   with `apikey` + `Authorization: Bearer` (service role). Exclude matching `id`s.
 - **Write (Step 7):** `POST .../vanlabs_seen_targets` with
   `Prefer: resolution=merge-duplicates` (upsert) for each engaged target.
@@ -390,8 +393,8 @@ and TAO.app keys are not required locally.
 | Variable | Purpose |
 |---|---|
 | `DESEARCH_API_KEY` | Desearch `/twitter` (Authorization header, no Bearer) |
-| `SUPABASE_URL` | Supabase REST base (dedup) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase REST auth (dedup) |
+| `SB_URL` | Supabase REST base (dedup). Falls back to `SUPABASE_URL` locally. |
+| `SB_KEY` | Supabase service-role key (dedup). Falls back to `SUPABASE_SERVICE_ROLE_KEY` locally. |
 | `GITHUB_TOKEN` | GitHub API for dev-activity validation |
 | `TELEGRAM_BOT_TOKEN` | `sendMessage` |
 | `TELEGRAM_CHAT_ID` | destination chat/channel |

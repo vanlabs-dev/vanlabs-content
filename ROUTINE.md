@@ -64,9 +64,14 @@ Apply `references/quality-bar.md`:
 3. **Dedup read.** Exclude any tweet `id` already engaged in the last 7 days:
 
 ```bash
+# Supabase env: the routine environment sets SB_URL / SB_KEY (IntoOps convention).
+# Fall back to SUPABASE_* so local runs work too. Use $SBURL / $SBKEY everywhere below.
+SBURL="${SB_URL:-$SUPABASE_URL}"
+SBKEY="${SB_KEY:-$SUPABASE_SERVICE_ROLE_KEY}"
+
 SINCE=$(date -u -d '7 days ago' +%Y-%m-%dT%H:%M:%SZ)
-curl -s "$SUPABASE_URL/rest/v1/vanlabs_seen_targets?select=tweet_id&run_at=gte.${SINCE}" \
-  -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY"
+curl -s "$SBURL/rest/v1/vanlabs_seen_targets?select=tweet_id&run_at=gte.${SINCE}" \
+  -H "apikey: $SBKEY" -H "Authorization: Bearer $SBKEY"
 ```
 
    If this read fails, do not abort: proceed and note "dedup unavailable" (duplicates become
@@ -145,8 +150,8 @@ the gate on it too before sending.
 For each draft sent, upsert its target into `vanlabs_seen_targets` so it is not re-surfaced:
 
 ```bash
-curl -s "$SUPABASE_URL/rest/v1/vanlabs_seen_targets" -X POST \
-  -H "apikey: $SUPABASE_SERVICE_ROLE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_ROLE_KEY" \
+curl -s "$SBURL/rest/v1/vanlabs_seen_targets" -X POST \
+  -H "apikey: $SBKEY" -H "Authorization: Bearer $SBKEY" \
   -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates" \
   -d '{"tweet_id":"TWEET_ID","tweet_url":"TWEET_URL","author":"@author","topic":"short label","format":"quote or reply"}'
 ```
