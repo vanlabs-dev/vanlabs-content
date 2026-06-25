@@ -30,6 +30,13 @@ Patterns: "emissions based on net tao flows", "taoflow determines/drives emissio
 
 Fix: As of June 2026, emissions are PRICE-based again (subtensor v3.4.6-421). emission_share is proportional to root_prop x EMA price x (1 - miner_burn), normalized across emit-enabled subnets. Taoflow (flow-based) applied only from November 2025 to June 2026. A correct price-based description must NOT be flagged.
 
+### 3b. Mechanic applied to the wrong emission era (temporal misattribution)
+Pattern: any past-tense claim ("was", "were", "historically", "used to", "before the change", "has always") that applies a mechanic from a different era than the one in effect then. Most common: stating or implying that miner_burn affected a subnet's emission share BEFORE June 2026 (e.g. "burning was costing them emission share", "miner_burn has always cut the network share").
+
+**Check**: For any past-tense claim about a mechanic, confirm the mechanic existed in the emission model active during that period. The (1 - miner_burn) coupling between miner_burn and emission share is the June 2026 price-based model ONLY. Under Taoflow (November 2025 to June 2026) emission share was set by net TAO flows, so miner_burn did NOT affect emission share. Under the original price-based dTAO (to November 2025) the ground truth does not establish a miner_burn coupling either, so do not assume one.
+
+Fix: Use the model in effect THEN. For a subnet that burned historically and is now setting miner_burn to 0%: under Taoflow burning did not touch emission share; the June 2026 price-based model put miner_burn in the formula via (1 - miner_burn), so burning is now self-taxing at the network level. If unsure which era a past event sits in, drop the historical claim. Never apply the current coupling retroactively.
+
 ### 4. Root validators voting on emissions
 Pattern: "root validators vote/voting/decide/determine emissions"
 
@@ -89,3 +96,4 @@ After writing, before saving:
 7. Confirm no em dashes exist anywhere
 8. Confirm the article follows the exact heading structure from article-format.md
 9. Ask: "If the subnet team reads this, will they say it's accurate?" If unsure about ANY claim, soften the language or remove it.
+10. **TEMPORAL CHECK:** For every past-tense claim about a mechanic, confirm it used the emission model in effect THEN (see error 3b). The (1 - miner_burn) emission-share coupling is June 2026+ only; under Taoflow (Nov 2025 to June 2026) miner_burn did not affect emission share. Never apply a current mechanic retroactively.
