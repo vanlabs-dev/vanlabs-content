@@ -235,6 +235,16 @@ def test_chain_buys_as_risk_warns():
     assert any("chain buy" in w.lower() for w in warnings)
 
 
+def test_temporal_miner_burn_past_warns():
+    _, warnings = vd.validate(msg(draft("Every point of miner burn was costing them emission share.")))
+    assert any("temporal" in w.lower() for w in warnings)
+
+
+def test_current_tense_miner_burn_no_temporal_warn():
+    _, warnings = vd.validate(msg(draft("miner_burn now cuts the subnet emission share directly.")))
+    assert not any("temporal" in w.lower() for w in warnings)
+
+
 # ---- repo sample fixture ----
 
 def test_repo_sample_validates_clean():

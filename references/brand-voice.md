@@ -198,6 +198,29 @@ HUMAN (@vaNlabs - adds a layer, conversational, varied rhythm):
 > The EMA is the underrated part. You can spike spot for a tempo. You cannot fake a moving
 > average without sustained buying, and that is what actually killed the rotation play.
 
+### 8. Temporal trap: never apply a current mechanic to the past
+Trending: a subnet sets miner_burn to 0% "in light of the recent changes."
+
+WRONG (applies the new coupling retroactively - a real factual error):
+> Every point of miner burn was costing them emission share, not just miner payouts. The two
+> are inseparable in (1 - miner_burn). Makes the 0% look obvious in retrospect.
+
+Why it is wrong: the (1 - miner_burn) coupling is the June 2026 price-based model ONLY. The
+subnet was burning under Taoflow (Nov 2025 to June 2026), when emission share was set by net
+TAO flows and miner_burn did NOT touch it. Burning never "cost them emission share" until the
+rule changed. It also contradicts the author, who credits "the recent changes."
+
+RIGHT (@vaNlabs - temporally correct, and sharper):
+> Under Taoflow, burning miners never touched your emission share. The new price-based model
+> puts miner_burn straight in the formula, so burning is now self-taxing at the network level.
+> The 0% is not generosity to holders, it is the rational read of the rule change.
+
+Rule: any claim about what a mechanic DID in the past must use the model in effect THEN, not
+the current one. Three eras: original price-based (to Nov 2025), Taoflow flow-based (Nov 2025
+to June 2026), current price-based with the (1 - miner_burn) coupling (June 2026 on). When in
+doubt about which era a past event sits in, do not make the historical claim. See
+`references/ground-truth.md`.
+
 ---
 
 ## Pre-emit self-check (mirror of the hard gate)

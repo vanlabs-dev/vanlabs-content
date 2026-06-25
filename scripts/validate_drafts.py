@@ -53,6 +53,9 @@ ROBOT_OPENER_RE = re.compile(
     r"^\s*(under the current model|the current model is built|it'?s worth noting|"
     r"it is worth noting|in essence|essentially,|notably,|to be clear|for context)\b", re.I)
 TIDY_CLOSER_RE = re.compile(r"\bby design\.?\s*$", re.I)
+MINER_BURN_RE = re.compile(r"miner.?burn", re.I)
+EMISSION_RE = re.compile(r"emission", re.I)
+PAST_MARKER_RE = re.compile(r"\b(was|were|historically|used to|had been|always|prior to|before)\b", re.I)
 URL_IN_TEXT_RE = re.compile(r"https?://", re.I)
 NEG_RE = re.compile(r"\b(not|never|no|isn't|aren't|don't|doesn't|didn't|won't|cannot|can't)\b|n't", re.I)
 
@@ -304,6 +307,11 @@ def validate(text, max_len=TELEGRAM_MAX_LEN):
             warnings.append(f"Draft {idx} opens with throat-clearing; lead with the point")
         if TIDY_CLOSER_RE.search(dt):
             warnings.append(f"Draft {idx} ends on a tidy summary closer ('by design')")
+        if MINER_BURN_RE.search(dt) and EMISSION_RE.search(dt) and PAST_MARKER_RE.search(dt):
+            warnings.append(
+                f"Draft {idx}: temporal check - miner_burn affects emission share only under "
+                "the current model (June 2026+), not under Taoflow; verify the era"
+            )
         for w in slop_warnings(dt):
             warnings.append(f"Draft {idx}: {w}")
         for w in factual_warnings(dt):

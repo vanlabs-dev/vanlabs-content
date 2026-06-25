@@ -92,6 +92,13 @@ For each item you intend to engage (only these, not the whole gather set):
 2. Route by authority tier (`references/data-sources.md`): protocol mechanics ->
    `ground-truth.md` (no API call); subnet identity/dev/market -> live fetch, conditional on
    the angle (TaoSwap identity -> GitHub -> Desearch; optional TaoStats/TAO.app).
+   **Temporal guard (critical):** a claim about what a mechanic DID in the past must use the
+   emission model in effect THEN, not the current one. Eras: original price-based (to Nov
+   2025), Taoflow flow-based (Nov 2025 to June 2026), current price-based with the
+   (1 - miner_burn) coupling (June 2026 on). Example: miner_burn cuts a subnet's emission
+   share only under the current model; under Taoflow it did not affect emission share at all.
+   Never apply a current mechanic retroactively. When unsure which era a past event sits in,
+   drop the historical claim.
 3. A claim you cannot validate is not written. If the only angle needs it, drop the item.
 4. No uncorroborated negative claim (`references/negative-claim-rules.md`): two independent
    sources before calling anything inactive/abandoned/declining, else rephrase or drop.

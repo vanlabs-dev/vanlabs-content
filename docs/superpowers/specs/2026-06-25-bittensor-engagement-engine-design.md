@@ -293,6 +293,9 @@ inside `<pre>` so message chrome (header, "Grounded on" lines) is untouched.
   filler, rhetorical-question openers.
 - Lower-confidence factual patterns that need context: chain-buys-as-risk ("0% emission
   buy" as bad), "all subnets do/are", "you earn by staking TAO".
+- Temporal trap: a draft that couples miner_burn + emission share + a past-tense marker
+  (was/were/historically/...). The (1 - miner_burn) coupling is the June 2026 model only; it
+  did not apply under Taoflow. ROUTINE.md Step 3 and `brand-voice.md` carry the full guard.
 
 The gate enforces format/voice/known-wrong phrasings. It is **not** a truth detector;
 live-data validation (Step 3) and the human gate cover semantic correctness. This division
