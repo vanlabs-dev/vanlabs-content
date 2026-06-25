@@ -107,13 +107,15 @@ rules (no em dash, no holder language, no fabricated metrics, no uncorroborated 
 source attribution) win.
 
 ### Step 1 — Gather trending Bittensor content
-Run a small set of Desearch `/twitter` queries (`sort=Top`, `lang=en`, `count` ~15-20,
-`min_likes` low — ~5-10 for this niche — authority matters more than raw likes). Two
+Run a small set of Desearch `/twitter` queries (`sort=Top`, `lang=en`, `count` ~15-20).
+Tune `min_likes` per sweep — authority matters more than raw reach for this niche. Two
 sweeps:
 
-- **Ecosystem:** anchored on unambiguous terms, e.g.
+- **Ecosystem** (`min_likes` ~10): anchored on unambiguous terms, e.g.
   `Bittensor OR "$TAO" OR dTAO OR "TAO subnet" OR netuid`.
-- **Subnet sweep:** e.g. `Bittensor (subnet OR SN OR netuid) (launch OR release OR mainnet OR shipped OR update)`.
+- **Subnet sweep** (`min_likes` ~2, so an authoritative subnet announcement with modest
+  engagement still surfaces): e.g.
+  `Bittensor (subnet OR SN OR netuid) (launch OR release OR mainnet OR shipped OR update)`.
 
 Set the date params to cover the run's lookback (today, plus yesterday for the first run
 of the day). If a query errors or is empty, note it and continue. Never fabricate to fill
@@ -133,11 +135,12 @@ space.
    take. Soft preference for a range across the two drafts (e.g. one ecosystem, one
    subnet) when both clear the bar — never a quota.
 5. **Select the target tweet** per chosen item from that story's hits: exclude
-   `is_retweet` and pure replies (`in_reply_to_status_id` set); prefer the primary actor's
-   own post; else rank by `is_blue_verified` / `verified`, then `followers_count`; break
-   ties by `view_count` then `like_count`. Use `url` as the target link and
-   `user.username` as the @handle. If an item's only tweets are low-credibility, skip it
-   and use the next-best item.
+   `is_retweet` and pure replies (`in_reply_to_status_id` set); exclude tweets authored by
+   the engine's own accounts (`@vaNlabs`, `@IntoTAO` — never engage your own posts); prefer
+   the primary actor's own post; else rank by `is_blue_verified` / `verified`, then
+   `followers_count`; break ties by `view_count` then `like_count`. Use `url` as the target
+   link and `user.username` as the @handle. If an item's only tweets are low-credibility,
+   skip it and use the next-best item.
 
 ### Step 3 — Validate the shortlist (the "nothing assumed" core)
 Run **only on the 1-2 items we intend to engage** (not the whole gather set). For each:
@@ -266,8 +269,9 @@ inside `<pre>` so message chrome (header, "Grounded on" lines) is untouched.
   (0 or >2 is an error).
 - A draft with no target link in its label, or a target that is not an
   `x.com`/`twitter.com` status link.
-- In any draft (inside `<pre>`): emoji; em dash (U+2014) or horizontal bar (U+2015); a
-  thread opener (`^\s*\d+/`).
+- An em dash (U+2014) or horizontal bar (U+2015) **anywhere in the message** (the brand's
+  global no-em-dash rule, not only inside drafts).
+- In any draft (inside `<pre>`): emoji; a thread opener (`^\s*\d+/`).
 - **Holder-count language** anywhere in a draft ("holders", "holder count",
   concentration-by-holders).
 - **Bittensor factual-error lint** (ported from `fact-patterns.md`), high-confidence and
@@ -297,7 +301,7 @@ mirrors IntoOps (`sanitize_article.py` + model self-check).
 (`&`→`&amp;`, `<`→`&lt;`, `>`→`&gt;`). Active window:
 
 ```
-🛰️ <b>Bittensor — engage</b>
+🛰️ <b>Bittensor - engage</b>
 <i>{Weekday, Month DD, YYYY · HH:MM TZ}</i>
 
 Quote post for <a href="TWEET_URL">@author</a>:
@@ -308,17 +312,20 @@ Reply to <a href="TWEET_URL">@author</a>:
 <pre>A shorter, pointed reply or a genuine question.</pre>
 <i>Grounded on: {one-line validation basis}</i>
 
-<i>Manual post only — validated, you decide.</i>
+<i>Manual post only. Validated, you decide.</i>
 ```
 
 Quiet window:
 
 ```
-🛰️ <b>Bittensor — engage</b>
+🛰️ <b>Bittensor - engage</b>
 <i>{Weekday, Month DD, YYYY · HH:MM TZ}</i>
 
 Quiet window. Nothing cleared the bar.
 ```
+
+No em dash appears anywhere in the message; the gate enforces no em dash across the whole
+message (not only inside drafts), per the brand's global no-em-dash rule.
 
 `TWEET_URL` is an `x.com`/`twitter.com` status link. The label line ("Quote post for" /
 "Reply to") sets the format and carries the target link; the `<pre>` is the tap-to-copy
