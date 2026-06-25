@@ -269,8 +269,8 @@ inside `<pre>` so message chrome (header, "Grounded on" lines) is untouched.
   (0 or >2 is an error).
 - A draft with no target link in its label, or a target that is not an
   `x.com`/`twitter.com` status link.
-- An em dash (U+2014) or horizontal bar (U+2015) **anywhere in the message** (the brand's
-  global no-em-dash rule, not only inside drafts).
+- An em dash (U+2014), horizontal bar (U+2015), or en dash (U+2013) **anywhere in the
+  message** (the brand's global no-long-dash rule, not only inside drafts; hyphens only).
 - In any draft (inside `<pre>`): emoji; a thread opener (`^\s*\d+/`).
 - **Holder-count language** anywhere in a draft ("holders", "holder count",
   concentration-by-holders).
@@ -282,7 +282,10 @@ inside `<pre>` so message chrome (header, "Grounded on" lines) is untouched.
   validators vote on emissions"; locking/conviction "boosts/increases emissions".
 
 ### Warnings (printed; the model resolves unless clearly spurious)
-- A draft over 280 chars; an en dash (U+2013); a URL inside the copy block.
+- A draft over 280 chars; a URL inside the copy block.
+- Robot/AI-voice tells: a throat-clearing opener ("Under the current model...", "The current
+  model is built on...", "It is worth noting...") or a tidy summary closer ("...by design").
+  These are the soft nudges; the real anti-robot work lives in `brand-voice.md`.
 - A high-signal **slop** phrase present (kept tight to avoid false positives): "game
   changer", "this changes everything", "let that sink in", "the future is here",
   "Hot take:", "Unpopular opinion:", "not just X, it's Y", "buckle up", "we're so back",

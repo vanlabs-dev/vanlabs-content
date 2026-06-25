@@ -205,10 +205,19 @@ def test_over_280_warns_not_errors():
     assert any("280" in w for w in warnings)
 
 
-def test_en_dash_warns_not_errors():
-    errors, warnings = vd.validate(msg(draft("Range was 2024–2025 for context.")))
-    assert errors == [], errors
-    assert any("en dash" in w.lower() for w in warnings)
+def test_en_dash_errors():
+    errors, _ = vd.validate(msg(draft("Range was 2024–2025 here.")))
+    assert any("en dash" in e.lower() for e in errors)
+
+
+def test_robot_opener_warns():
+    _, warnings = vd.validate(msg(draft("Under the current model, miner_burn cuts share.")))
+    assert any("throat" in w.lower() or "lead with the point" in w.lower() for w in warnings)
+
+
+def test_tidy_closer_warns():
+    _, warnings = vd.validate(msg(draft("It cuts the share. The two goals aligned here by design.")))
+    assert any("closer" in w.lower() or "by design" in w.lower() for w in warnings)
 
 
 def test_url_in_draft_warns():

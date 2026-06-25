@@ -49,6 +49,10 @@ PRE_RE = re.compile(r"<pre>(.*?)</pre>", re.S)
 X_STATUS_RE = re.compile(r"https?://(x\.com|(mobile\.)?twitter\.com)/", re.I)
 QUIET_RE = re.compile(r"quiet window", re.I)
 HOLDER_RE = re.compile(r"\bholders?\b", re.I)
+ROBOT_OPENER_RE = re.compile(
+    r"^\s*(under the current model|the current model is built|it'?s worth noting|"
+    r"it is worth noting|in essence|essentially,|notably,|to be clear|for context)\b", re.I)
+TIDY_CLOSER_RE = re.compile(r"\bby design\.?\s*$", re.I)
 URL_IN_TEXT_RE = re.compile(r"https?://", re.I)
 NEG_RE = re.compile(r"\b(not|never|no|isn't|aren't|don't|doesn't|didn't|won't|cannot|can't)\b|n't", re.I)
 
@@ -257,9 +261,11 @@ def validate(text, max_len=TELEGRAM_MAX_LEN):
     for ph in sorted(set(PLACEHOLDER_RE.findall(text))):
         errors.append(f"Unfilled placeholder token: {ph}")
 
-    # 4. Em dash anywhere (global brand rule)
+    # 4. Em / en dash anywhere (global brand rule: hyphens only, no long dashes)
     if has_em_dash(text):
         errors.append("Em dash (or horizontal bar) present; use a hyphen, comma, or colon")
+    if has_en_dash(text):
+        errors.append("En dash present; use a hyphen, comma, or colon")
 
     # 5. Draft count vs quiet window
     quiet = QUIET_RE.search(text) is not None
@@ -292,10 +298,12 @@ def validate(text, max_len=TELEGRAM_MAX_LEN):
         # warnings
         if len(dt) > 280:
             warnings.append(f"Draft {idx} is {len(dt)} chars (>280; tighten if you can)")
-        if has_en_dash(dt):
-            warnings.append(f"Draft {idx} contains an en dash")
         if URL_IN_TEXT_RE.search(dt):
             warnings.append(f"Draft {idx} contains a URL inside the copy block")
+        if ROBOT_OPENER_RE.match(dt):
+            warnings.append(f"Draft {idx} opens with throat-clearing; lead with the point")
+        if TIDY_CLOSER_RE.search(dt):
+            warnings.append(f"Draft {idx} ends on a tidy summary closer ('by design')")
         for w in slop_warnings(dt):
             warnings.append(f"Draft {idx}: {w}")
         for w in factual_warnings(dt):
