@@ -1,6 +1,7 @@
 # Runtime artifacts produced by the routine
 digest.html
 digest.txt
+message.html
 payload.json
 
 # Python
